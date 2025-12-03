@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+if [ -z "${1-}" ]; then
+  echo "Usage: worktree-remove <folder-name>"
+  exit 1
+fi
+
+FOLDER="$1"
+BRANCH="amydutton/$FOLDER"
+
+# Get the directory where this script lives
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+project_root="$(dirname "$script_dir")"
+
+cd "$project_root"
+
+# Check if worktree exists
+if [ ! -d "$FOLDER" ]; then
+  echo "Error: Worktree folder '$FOLDER' does not exist"
+  exit 1
+fi
+
+# Remove the worktree
+echo "Removing worktree: $FOLDER"
+git worktree remove "$FOLDER" || {
+  echo "Error: Failed to remove worktree"
+  exit 1
+}
+
+# Delete the folder if it still exists - this is handled by the worktree remove command
+if [ -d "$FOLDER" ]; then
+  echo "Deleting folder: $FOLDER"
+  rm -rf "$FOLDER"
+fi
+
+# Delete local branch if it exists
+if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+  echo "Deleting local branch: $BRANCH"
+  git branch -D "$BRANCH"
+fi
+
+# Delete remote branch if it exists
+# if git ls-remote --heads origin "$BRANCH" | grep -q "$BRANCH"; then
+#   echo "Deleting remote branch: $BRANCH"
+#   git push origin --delete "$BRANCH"
+# fi
+
+echo "✓ Cleanup complete"
+

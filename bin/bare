@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+  echo "Usage: bare <REPO>"
+  exit 1
+fi
+
+git clone --bare "$1" .bare
+
