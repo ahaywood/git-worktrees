@@ -177,6 +177,10 @@ if [[ "$base" == "dev" ]]; then
   if [[ -z "$(git ls-remote --heads origin dev)" ]]; then
     msg "${GRAY}Base branch 'dev' does not exist. Falling back to 'main'.${NOFORMAT}"
     base='main'
+    # Verify main exists
+    if [[ -z "$(git ls-remote --heads origin main)" ]]; then
+      die "Neither 'dev' nor 'main' branches exist on origin. Please specify a base branch with -B option."
+    fi
   fi
 fi
 
