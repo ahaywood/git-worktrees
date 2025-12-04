@@ -42,6 +42,33 @@ worktree <branch-name>
 
 This command creates a new worktree with the branch `amydutton/<branch-name>` based off `dev`, installs dependencies, and builds the project.
 
+### Setting Up a New Project (Empty Repo)
+
+If you're starting from scratch with an empty GitHub repository:
+
+1. Create a new repository on GitHub
+
+2. Clone as a bare repository:
+```shell
+bare git@github.com:your-username/your-repo.git
+```
+
+3. Create the git pointer file:
+```shell
+echo "gitdir: ./.bare" > .git
+```
+
+4. Create the initial main branch:
+```shell
+git worktree add main --orphan
+cd main
+echo "# Your Project Name" > README.md
+git add .
+git commit -m "🎉 Initial commit"
+git push -u origin main
+cd ..
+```
+
 ### Worktree Workflow
 
 The `worktree` command is a convenience wrapper around `./new-worktree.sh` that:
