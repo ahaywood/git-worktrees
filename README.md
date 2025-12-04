@@ -25,12 +25,17 @@ bare <REPO>
 
 This clones the repository as a bare repository into `.bare/`, which is required for the worktree workflow.
 
-2. Allow direnv to load project configuration:
+2. Make the new-worktree.sh script executable:
+```bash
+chmod +x new-worktree.sh
+```
+
+3. Allow direnv to load project configuration:
 ```bash
 direnv allow
 ```
 
-3. Create a new worktree for your feature branch:
+4. Create a new worktree for your feature branch:
 ```bash
 worktree <branch-name>
 ```
