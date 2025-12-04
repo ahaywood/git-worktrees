@@ -23,14 +23,14 @@ Available options:
 -h, --help                    Print this help and exit
 -v, --verbose                 Print script debug info
 -b, --branch                  The branch to create
--B, --base                    The branch to use as the base for the new worktree (default: dev)
+-B, --base                    The branch to use as the base for the new worktree (default: dev, falls back to main if dev doesn't exist)
 -p, --prefix                  The prefix to apply to the branch name (default: $(git config github.user)/)
 -N, --no-create-upstream      Do not create an upstream branch
 
 
 This script performs the following steps:
 
-1. Create a new worktree, based off the base branch (default: dev)
+1. Create a new worktree, based off the base branch (default: dev, falls back to main if dev doesn't exist)
 2. Create a new upstream branch to track the work
 2. Install dependencies
 3. Run a build
@@ -171,6 +171,14 @@ update_remote() {
     run_command "Setting upstream branch to 'origin/$branch'" git branch --set-upstream-to="origin/$branch"
   fi
 }
+
+# Check if base branch exists, fallback to main if dev doesn't exist
+if [[ "$base" == "dev" ]]; then
+  if [[ -z "$(git ls-remote --heads origin dev)" ]]; then
+    msg "${GRAY}Base branch 'dev' does not exist. Falling back to 'main'.${NOFORMAT}"
+    base='main'
+  fi
+fi
 
 # Fetch latest from origin to ensure base branch is up-to-date
 run_command "Fetching latest from origin..." git fetch origin "$base"
