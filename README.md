@@ -50,7 +50,7 @@ If you're starting from scratch with an empty GitHub repository:
 
 2. Clone as a bare repository:
 ```shell
-bare git@github.com:your-username/your-repo.git3
+bare git@github.com:your-username/your-repo.git
 ```
 
 3. Create the git pointer file:
