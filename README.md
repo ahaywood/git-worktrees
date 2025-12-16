@@ -18,22 +18,22 @@ This project uses git worktrees to manage multiple feature branches simultaneous
 
 ### Quick Start
 
-1. Clone the repository as a bare repo:
+1. Make the new-worktree.sh script executable:
+```bash
+chmod +x new-worktree.sh
+```
+
+2. Allow direnv to load project configuration:
+```bash
+direnv allow
+```
+
+3. Clone the repository as a bare repo:
 ```bash
 bare <REPO>
 ```
 
 This clones the repository as a bare repository into `.bare/`, which is required for the worktree workflow.
-
-2. Make the new-worktree.sh script executable:
-```bash
-chmod +x new-worktree.sh
-```
-
-3. Allow direnv to load project configuration:
-```bash
-direnv allow
-```
 
 4. Create a new worktree for your feature branch:
 ```bash
